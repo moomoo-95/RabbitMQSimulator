@@ -1,0 +1,2 @@
+# RabbitMQSimulator
+RabbitMQ Simulator
