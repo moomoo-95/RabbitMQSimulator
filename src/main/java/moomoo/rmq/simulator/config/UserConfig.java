@@ -1,21 +1,23 @@
 package moomoo.rmq.simulator.config;
 
+import lombok.extern.slf4j.Slf4j;
+import moomoo.rmq.simulator.util.CommonUtil;
 import org.ini4j.Ini;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.util.function.Predicate;
 
+@Slf4j
 public class UserConfig {
-    private static final Logger log = LoggerFactory.getLogger(UserConfig.class);
 
-    private static final String CONFIG_LOG = "Lod [{}] config ok.";
+    private static final String CONFIG_LOG = "Load [{}] config ok.";
 
     private Ini ini = null;
     // SECTION
     private static final String SECTION_RMQ = "RMQ";
     // FIELD
     // RMQ
-    private static final String FILED_RMQ_HOST = "HOST";
+    private static final String FIELD_RMQ_HOST = "HOST";
     private static final String FIELD_RMQ_USER = "USER";
     private static final String FIELD_RMQ_PORT = "PORT";
     private static final String FIELD_RMQ_PASS = "PASS";
@@ -27,6 +29,169 @@ public class UserConfig {
     private static final String FIELD_RMQ_CONN_TIMEOUT = "CONN_TIMEOUT";
     private static final String FIELD_RMQ_THREAD_SIZE = "THREAD_SIZE";
     private static final String FIELD_RMQ_QUEUE_SIZE = "QUEUE_SIZE";
-    private static final String FIELD_RMQ_TIME_OUT = "TIME_OUT";
+    private static final String FIELD_RMQ_TIMEOUT = "TIMEOUT";
 
+    // RMQ
+    private String rmqHost;
+    private String rmqUser;
+    private int rmqPort;
+    private String rmqPass;
+    private String rmqLocalQueue;
+    private String rmqTargetQueue;
+    private boolean rmqAutoRecovery;
+    private int rmqNetRecovery;
+    private int rmqReqHb;
+    private int rmqConnTimeout;
+    private int rmqThreadSize;
+    private int rmqQueueSize;
+    private int rmqTimeout;
+
+    public UserConfig(String configPath) {
+        File iniFile = new File(configPath);
+        if (!iniFile.isFile() || !iniFile.exists()) {
+            log.warn("Not found the config path. (path={})", configPath);
+            return;
+        }
+
+        try {
+            this.ini = new Ini(iniFile);
+
+            loadRmqConfig();
+        } catch (Exception e) {
+            log.error("UserConfig ", e);
+        }
+    }
+
+    private void loadRmqConfig() {
+        this.rmqHost = getIniValue(SECTION_RMQ, FIELD_RMQ_HOST);
+        this.rmqUser = getIniValue(SECTION_RMQ, FIELD_RMQ_USER);
+        this.rmqPort = Integer.parseInt(getIniValue(SECTION_RMQ, FIELD_RMQ_PORT, CommonUtil::isInteger));
+        this.rmqPass = getIniValue(SECTION_RMQ, FIELD_RMQ_PASS);
+        this.rmqLocalQueue = getIniValue(SECTION_RMQ, FIELD_RMQ_LOCAL_Q);
+        this.rmqTargetQueue = getIniValue(SECTION_RMQ, FIELD_RMQ_TARGET_Q);
+        this.rmqAutoRecovery = Boolean.parseBoolean(getIniValue(SECTION_RMQ, FIELD_RMQ_AUTO_RECOVERY));
+        this.rmqNetRecovery = Integer.parseInt(getIniValue(SECTION_RMQ, FIELD_RMQ_NET_RECOVERY, CommonUtil::isInteger));
+        this.rmqReqHb = Integer.parseInt(getIniValue(SECTION_RMQ, FIELD_RMQ_REQ_HB, CommonUtil::isInteger));
+        this.rmqConnTimeout = Integer.parseInt(getIniValue(SECTION_RMQ, FIELD_RMQ_CONN_TIMEOUT, CommonUtil::isInteger));
+        this.rmqThreadSize = Integer.parseInt(getIniValue(SECTION_RMQ, FIELD_RMQ_THREAD_SIZE, CommonUtil::isInteger));
+        this.rmqQueueSize = Integer.parseInt(getIniValue(SECTION_RMQ, FIELD_RMQ_QUEUE_SIZE, CommonUtil::isInteger));
+        this.rmqTimeout = Integer.parseInt(getIniValue(SECTION_RMQ, FIELD_RMQ_TIMEOUT, CommonUtil::isInteger));
+        log.debug(CONFIG_LOG, SECTION_RMQ);
+    }
+
+    /**
+     * config 값을 읽어 특정 형식으로 변환 가능한지 확인한 이후 String 으로 반환하는 메서드
+     */
+    private String getIniValue(String section, String key, Predicate<String> validation){
+        String value = ini.get(section, key);
+
+        if (value == null || !validation.test(value)) {
+            log.error("[{}] \"{}\" is null or type mismatch.", section, key);
+            System.exit(1);
+            return null;
+        }
+
+        value = value.trim();
+        log.debug("Get [{}] config [{}] : [{}]", section, key, value);
+        return  value;
+    }
+
+    /**
+     * config 값을 읽어 String 으로 반환하는 메서드
+     */
+    private String getIniValue(String section, String key){
+        String value = ini.get(section, key);
+        if (value == null) {
+            log.error("[{}] \"{}\" is null.", section, key);
+            System.exit(1);
+            return null;
+        }
+
+        value = value.trim();
+        log.debug("Get [{}] config [{}] : [{}]", section, key, value);
+        return  value;
+    }
+
+    private void setIniValue(String section, String key, String value) {
+        try {
+            ini.put(section, key, value);
+            ini.store();
+
+            log.debug("Set [{}] config [{}] : [{}]", section, key, value);
+        } catch (Exception e) {
+            log.warn("Fail to set [{}] config [{}] : [{}] ", section, key, value);
+        }
+    }
+
+    // rmq
+    public String getRmqHost() {
+        return rmqHost;
+    }
+
+    public String getRmqUser() {
+        return rmqUser;
+    }
+
+    public int getRmqPort() {
+        return rmqPort;
+    }
+
+    public String getRmqPass() {
+        return rmqPass;
+    }
+
+    public String getRmqLocalQueue() {
+        return rmqLocalQueue;
+    }
+
+    public String getRmqTargetQueue() {
+        return rmqTargetQueue;
+    }
+
+    public boolean getRmqAutoRecovery() {
+        return rmqAutoRecovery;
+    }
+
+    public int getRmqNetRecovery() {
+        return rmqNetRecovery;
+    }
+
+    public int getRmqReqHb() {
+        return rmqReqHb;
+    }
+
+    public int getRmqConnTimeout() {
+        return rmqConnTimeout;
+    }
+
+    public int getRmqThreadSize() {
+        return rmqThreadSize;
+    }
+
+    public int getRmqQueueSize() {
+        return rmqQueueSize;
+    }
+
+    public int getRmqTimeout() {
+        return rmqTimeout;
+    }
+
+    @Override
+    public String toString() {
+        return "UserConfig{" +
+                "rmqHost='" + rmqHost + '\'' +
+                ", rmqUser='" + rmqUser + '\'' +
+                ", rmqPort=" + rmqPort +
+                ", rmqPass='" + rmqPass + '\'' +
+                ", rmqLocalQueue='" + rmqLocalQueue + '\'' +
+                ", rmqTargetQueue='" + rmqTargetQueue + '\'' +
+                ", rmqAutoRecovery=" + rmqAutoRecovery +
+                ", rmqNetRecovery=" + rmqNetRecovery +
+                ", rmqReqHb=" + rmqReqHb +
+                ", rmqConnTimeout=" + rmqConnTimeout +
+                ", rmqThreadSize=" + rmqThreadSize +
+                ", rmqQueueSize=" + rmqQueueSize +
+                ", rmqTimeout=" + rmqTimeout +
+                '}';
+    }
 }

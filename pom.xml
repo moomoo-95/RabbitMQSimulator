@@ -46,6 +46,13 @@
             <version>0.5.4</version>
         </dependency>
 
+        <!-- encrypt, decrypt -->
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+
         <!-- test -->
         <dependency>
             <groupId>junit</groupId>
