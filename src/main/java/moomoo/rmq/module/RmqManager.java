@@ -39,7 +39,7 @@ public class RmqManager {
     public void stopRmq() {
         stopRmqServer();
         stopRmqClient();
-        rmqExecutorService.shutdown();
+        stopRmqConsumer();
     }
 
 
@@ -67,7 +67,9 @@ public class RmqManager {
 
     // RabbitMQ Consumer 시작
     private void startRmqConsumer() {
-        // todo 만들어야 함
+        for (int i = 0; i < config.getRmqThreadSize(); i++) {
+            rmqExecutorService.execute(new RmqConsumer(messageQueue));
+        }
     }
 
     private void stopRmqServer() {
@@ -81,6 +83,12 @@ public class RmqManager {
         if (!rmqClientMap.isEmpty()) {
             rmqClientMap.forEach((key, client) -> client.stop());
             rmqClientMap.clear();
+        }
+    }
+
+    private void stopRmqConsumer() {
+        if (!rmqExecutorService.isShutdown()) {
+            rmqExecutorService.shutdown();
         }
     }
 }
