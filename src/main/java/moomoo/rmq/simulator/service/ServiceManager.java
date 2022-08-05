@@ -1,7 +1,7 @@
 package moomoo.rmq.simulator.service;
 
 import lombok.extern.slf4j.Slf4j;
-import moomoo.rmq.module.RmqManager;
+import moomoo.rmq.rmqif.RmqManager;
 import moomoo.rmq.simulator.util.CommonUtil;
 
 import java.io.File;
@@ -49,11 +49,7 @@ public class ServiceManager {
         startService();
 
         while (!isQuit) {
-            try {
-                CommonUtil.trySleep(1000);
-            } catch (Exception e) {
-                log.error("ServiceManager.loop ", e);
-            }
+            CommonUtil.trySleep(1000);
         }
         log.debug("{} Process End", SERVICE_NAME);
 

@@ -1,12 +1,12 @@
-package moomoo.rmq.module.transport;
+package moomoo.rmq.rmqif.module.transport;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 import lombok.extern.slf4j.Slf4j;
-import moomoo.rmq.module.transport.base.RmqCallback;
-import moomoo.rmq.module.transport.base.RmqTransport;
+import moomoo.rmq.rmqif.module.transport.base.RmqCallback;
+import moomoo.rmq.rmqif.module.transport.base.RmqTransport;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

@@ -1,4 +1,4 @@
-package moomoo.rmq.module;
+package moomoo.rmq.rmqif.module;
 
 import java.util.concurrent.BlockingQueue;
 

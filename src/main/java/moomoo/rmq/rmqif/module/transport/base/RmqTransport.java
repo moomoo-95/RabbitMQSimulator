@@ -1,4 +1,4 @@
-package moomoo.rmq.module.transport.base;
+package moomoo.rmq.rmqif.module.transport.base;
 
 import com.rabbitmq.client.*;
 import com.rabbitmq.client.impl.DefaultExceptionHandler;
@@ -70,7 +70,7 @@ public class RmqTransport {
 
         // 기타 rabbitmq 옵션 설정
         UserConfig config = AppInstance.getInstance().getConfig();
-        factory.setAutomaticRecoveryEnabled(config.getRmqAutoRecovery());
+        factory.setAutomaticRecoveryEnabled(config.isRmqAutoRecovery());
         factory.setNetworkRecoveryInterval(config.getRmqNetRecovery());
         factory.setRequestedHeartbeat(config.getRmqReqHb());
         factory.setConnectionTimeout(config.getRmqConnTimeout());

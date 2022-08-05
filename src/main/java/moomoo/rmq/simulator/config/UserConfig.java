@@ -14,8 +14,13 @@ public class UserConfig {
 
     private Ini ini = null;
     // SECTION
+    private static final String SECTION_COMMON = "COMMON";
     private static final String SECTION_RMQ = "RMQ";
     // FIELD
+    // COMMON
+    private static final String FIELD_COMMON_VARIABLE_FILE = "VARIABLE_FILE";
+    private static final String FIELD_COMMON_MSG_PATH = "MSG_PATH";
+    private static final String FIELD_COMMON_SCENARIO_PATH = "SCENARIO_PATH";
     // RMQ
     private static final String FIELD_RMQ_HOST = "HOST";
     private static final String FIELD_RMQ_USER = "USER";
@@ -31,6 +36,10 @@ public class UserConfig {
     private static final String FIELD_RMQ_QUEUE_SIZE = "QUEUE_SIZE";
     private static final String FIELD_RMQ_TIMEOUT = "TIMEOUT";
 
+    // COMMON
+    private String commonVariableFile;
+    private String commonMsgPath;
+    private String commonScenarioPath;
     // RMQ
     private String rmqHost;
     private String rmqUser;
@@ -56,10 +65,17 @@ public class UserConfig {
         try {
             this.ini = new Ini(iniFile);
 
+            loadCommonConfig();
             loadRmqConfig();
         } catch (Exception e) {
             log.error("UserConfig ", e);
         }
+    }
+
+    private void loadCommonConfig() {
+        this.commonVariableFile = getIniValue(SECTION_COMMON, FIELD_COMMON_VARIABLE_FILE);
+        this.commonMsgPath = getIniValue(SECTION_COMMON, FIELD_COMMON_MSG_PATH);
+        this.commonScenarioPath = getIniValue(SECTION_COMMON, FIELD_COMMON_SCENARIO_PATH);
     }
 
     private void loadRmqConfig() {
@@ -123,6 +139,19 @@ public class UserConfig {
         }
     }
 
+    // common
+    public String getCommonVariableFile() {
+        return commonVariableFile;
+    }
+
+    public String getCommonMsgPath() {
+        return commonMsgPath;
+    }
+
+    public String getCommonScenarioPath() {
+        return commonScenarioPath;
+    }
+
     // rmq
     public String getRmqHost() {
         return rmqHost;
@@ -148,7 +177,7 @@ public class UserConfig {
         return rmqTargetQueue;
     }
 
-    public boolean getRmqAutoRecovery() {
+    public boolean isRmqAutoRecovery() {
         return rmqAutoRecovery;
     }
 
@@ -174,24 +203,5 @@ public class UserConfig {
 
     public int getRmqTimeout() {
         return rmqTimeout;
-    }
-
-    @Override
-    public String toString() {
-        return "UserConfig{" +
-                "rmqHost='" + rmqHost + '\'' +
-                ", rmqUser='" + rmqUser + '\'' +
-                ", rmqPort=" + rmqPort +
-                ", rmqPass='" + rmqPass + '\'' +
-                ", rmqLocalQueue='" + rmqLocalQueue + '\'' +
-                ", rmqTargetQueue='" + rmqTargetQueue + '\'' +
-                ", rmqAutoRecovery=" + rmqAutoRecovery +
-                ", rmqNetRecovery=" + rmqNetRecovery +
-                ", rmqReqHb=" + rmqReqHb +
-                ", rmqConnTimeout=" + rmqConnTimeout +
-                ", rmqThreadSize=" + rmqThreadSize +
-                ", rmqQueueSize=" + rmqQueueSize +
-                ", rmqTimeout=" + rmqTimeout +
-                '}';
     }
 }

@@ -1,7 +1,7 @@
-package moomoo.rmq.module.transport;
+package moomoo.rmq.rmqif.module.transport;
 
 import lombok.extern.slf4j.Slf4j;
-import moomoo.rmq.module.transport.base.RmqTransport;
+import moomoo.rmq.rmqif.module.transport.base.RmqTransport;
 
 import java.nio.charset.Charset;
 

@@ -1,9 +1,9 @@
-package moomoo.rmq.module;
+package moomoo.rmq.rmqif.module;
 
 import lombok.extern.slf4j.Slf4j;
-import moomoo.rmq.module.transport.RmqReceiver;
-import moomoo.rmq.module.transport.base.RmqCallback;
-import moomoo.rmq.module.util.PasswordEncryptor;
+import moomoo.rmq.rmqif.module.transport.RmqReceiver;
+import moomoo.rmq.rmqif.module.transport.base.RmqCallback;
+import moomoo.rmq.rmqif.module.util.PasswordEncryptor;
 import moomoo.rmq.simulator.AppInstance;
 
 import java.util.Date;

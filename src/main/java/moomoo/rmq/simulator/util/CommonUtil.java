@@ -14,7 +14,7 @@ public class CommonUtil {
             if (msec < 0) msec = 0;
             Thread.sleep(msec);
         } catch (InterruptedException e) {
-            // Thread Pool에 interrupt 발생을 알림. (문제될 건 없지만, 관용적으로 사용 권장)
+            // Thread Pool에 interrupt 발생을 알림.
             Thread.currentThread().interrupt();
         } catch (Exception e) {
             log.error("AppUtil.trySleep ", e);

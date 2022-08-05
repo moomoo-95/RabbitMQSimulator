@@ -1,6 +1,9 @@
-package moomoo.rmq.module;
+package moomoo.rmq.rmqif;
 
 import lombok.extern.slf4j.Slf4j;
+import moomoo.rmq.rmqif.module.RmqClient;
+import moomoo.rmq.rmqif.module.RmqConsumer;
+import moomoo.rmq.rmqif.module.RmqServer;
 import moomoo.rmq.simulator.AppInstance;
 import moomoo.rmq.simulator.config.UserConfig;
 
