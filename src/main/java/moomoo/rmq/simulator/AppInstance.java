@@ -1,6 +1,8 @@
 package moomoo.rmq.simulator;
 
 import moomoo.rmq.simulator.config.UserConfig;
+import moomoo.rmq.simulator.util.MsgParser;
+import moomoo.rmq.simulator.util.XmlParser;
 
 public class AppInstance {
 
@@ -25,5 +27,9 @@ public class AppInstance {
 
     public void setConfig(String configPath) {
         this.config = new UserConfig(configPath);
+    }
+
+    public boolean setResources() {
+        return XmlParser.readVariableXmlFile() && MsgParser.readMsgDir();
     }
 }

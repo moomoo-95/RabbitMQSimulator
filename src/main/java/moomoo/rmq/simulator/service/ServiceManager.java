@@ -3,6 +3,8 @@ package moomoo.rmq.simulator.service;
 import lombok.extern.slf4j.Slf4j;
 import moomoo.rmq.rmqif.RmqManager;
 import moomoo.rmq.simulator.util.CommonUtil;
+import moomoo.rmq.simulator.util.MsgParser;
+import moomoo.rmq.simulator.util.XmlParser;
 
 import java.io.File;
 import java.nio.channels.FileChannel;
@@ -57,6 +59,7 @@ public class ServiceManager {
 
     private void startService() {
         systemLock();
+
         RmqManager.getInstance().startRmq();
     }
 

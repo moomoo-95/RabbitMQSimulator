@@ -12,7 +12,10 @@ public class SimulatorMain {
             System.exit(1);
         }
 
-        AppInstance.getInstance().setConfig(args[0]);
+        AppInstance appInstance = AppInstance.getInstance();
+        appInstance.setConfig(args[0]);
+        if (!appInstance.setResources()) return;
+
         ServiceManager.getInstance().loop();
 
     }
