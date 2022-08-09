@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import moomoo.rmq.simulator.AppInstance;
 import moomoo.rmq.simulator.config.UserConfig;
 import moomoo.rmq.simulator.module.variable.VariableInfo;
-import moomoo.rmq.simulator.module.variable.VariableManager;
+import moomoo.rmq.simulator.module.variable.VariableFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -27,6 +27,7 @@ import static moomoo.rmq.simulator.util.CommonUtil.isInteger;
 @Slf4j
 public class XmlParser {
 
+    // variable.xml
     private static final String VARIABLES_TAG = "variables";
     private static final String VARIABLE_TAG = "variable";
 
@@ -35,12 +36,29 @@ public class XmlParser {
     private static final String LENGTH_ATTRIBUTE = "length";
     private static final String FORMAT_ATTRIBUTE = "format";
 
+    // scenario.xml
+    private static final String SCENARIOS_TAG = "scenarios";
+    private static final String SCENARIO_TAG = "scenario";
+    private static final String PAUSE_TAG = "pause";
+    private static final String SEND_TAG = "send";
+    private static final String RECV_TAG = "recv";
+
+    private static final String COUNT_ATTRIBUTE = "count";
+    private static final String ID_ATTRIBUTE = "id";
+    private static final String EXPECT_ATTRIBUTE = "expect";
+
+
+
+
     private static UserConfig config = AppInstance.getInstance().getConfig();
 
     private XmlParser() {
         // Do nothing
     }
 
+    /**
+     * variable.xml 파일을 파싱하는 메서드
+     */
     public static boolean readVariableXmlFile() {
         try {
             // 1. read xml file
@@ -65,9 +83,32 @@ public class XmlParser {
             log.debug("{} Variable parsing... (OK)", config.getCommonVariableFile());
             return true;
         } catch (Exception e) {
-            log.error("XmlParser.readXmlFile", e);
+            log.error("XmlParser.readVariableXmlFile", e);
             return false;
         }
+    }
+
+
+    /**
+     * scenario.xml 파일을 파싱하는 메서드
+     */
+    public static boolean readScenarioXmlFile(){
+        try {
+            // 1. read xml file
+            File xmlFile = new File(config.getCommonScenarioFile());
+
+            Document document = createDocument(xmlFile);
+            if(document == null) {
+                return false;
+            }
+
+            Element documentElement = document.getDocumentElement();
+            documentElement.normalize();
+
+        } catch (Exception e) {
+            log.error("XmlParser.readScenarioXmlFile", e);
+        }
+        return true;
     }
 
     private static Document createDocument(File path) {
@@ -125,7 +166,7 @@ public class XmlParser {
                 log.warn("variable name [{}] is already exist", name);
             }
         }
-        VariableManager.getInstance().setVariableMap(variableMap);
+        VariableFactory.getInstance().setVariableMap(variableMap);
 
         variableMap.forEach( (k, v) -> log.debug("{} : {}", k, v.toString()) );
     }

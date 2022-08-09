@@ -19,8 +19,8 @@ public class UserConfig {
     // FIELD
     // COMMON
     private static final String FIELD_COMMON_VARIABLE_FILE = "VARIABLE_FILE";
+    private static final String FIELD_COMMON_SCENARIO_FILE = "SCENARIO_FILE";
     private static final String FIELD_COMMON_MSG_PATH = "MSG_PATH";
-    private static final String FIELD_COMMON_SCENARIO_PATH = "SCENARIO_PATH";
     // RMQ
     private static final String FIELD_RMQ_HOST = "HOST";
     private static final String FIELD_RMQ_USER = "USER";
@@ -38,8 +38,8 @@ public class UserConfig {
 
     // COMMON
     private String commonVariableFile;
+    private String commonScenarioFile;
     private String commonMsgPath;
-    private String commonScenarioPath;
     // RMQ
     private String rmqHost;
     private String rmqUser;
@@ -74,8 +74,8 @@ public class UserConfig {
 
     private void loadCommonConfig() {
         this.commonVariableFile = getIniValue(SECTION_COMMON, FIELD_COMMON_VARIABLE_FILE);
+        this.commonScenarioFile = getIniValue(SECTION_COMMON, FIELD_COMMON_SCENARIO_FILE);
         this.commonMsgPath = getIniValue(SECTION_COMMON, FIELD_COMMON_MSG_PATH);
-        this.commonScenarioPath = getIniValue(SECTION_COMMON, FIELD_COMMON_SCENARIO_PATH);
     }
 
     private void loadRmqConfig() {
@@ -148,8 +148,8 @@ public class UserConfig {
         return commonMsgPath;
     }
 
-    public String getCommonScenarioPath() {
-        return commonScenarioPath;
+    public String getCommonScenarioFile() {
+        return commonScenarioFile;
     }
 
     // rmq

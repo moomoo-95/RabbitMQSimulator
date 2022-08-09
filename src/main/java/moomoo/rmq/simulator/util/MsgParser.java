@@ -5,7 +5,7 @@ import moomoo.rmq.simulator.AppInstance;
 import moomoo.rmq.simulator.config.UserConfig;
 import moomoo.rmq.simulator.module.message.MessageInfo;
 import moomoo.rmq.simulator.module.message.MessageManager;
-import moomoo.rmq.simulator.module.variable.VariableManager;
+import moomoo.rmq.simulator.module.variable.VariableFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,7 +26,7 @@ public class MsgParser {
     private static final String MSG_FILE_EXTENSION = ".msg";
 
     private static UserConfig config = AppInstance.getInstance().getConfig();
-    private static VariableManager variableManager = VariableManager.getInstance();
+    private static VariableFactory variableFactory = VariableFactory.getInstance();
 
     private MsgParser() {
         // Do nothing
@@ -88,7 +88,7 @@ public class MsgParser {
                 int endIdx = indexPairList.get(idx+1);
                 String variableName = stringBuilder.substring(startIdx + 1, endIdx);
                 //
-                if (variableManager.isVariableKey(variableName)) {
+                if (variableFactory.isVariableKey(variableName)) {
                     // 데이터 처리 편의성을 위해 변수 기준으로 string 을 분할하여 list 에 저장
                     if (addIndex < startIdx) message.add(stringBuilder.substring(addIndex, startIdx));
                     message.add(variableName);

@@ -2,26 +2,28 @@ package moomoo.rmq.simulator.module.variable;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static moomoo.rmq.simulator.module.base.VariableType.*;
 import static moomoo.rmq.simulator.util.VariableUtil.*;
 
 @Slf4j
-public class VariableManager {
+public class VariableFactory {
 
-    private static final class Singleton { private static final VariableManager INSTANCE = new VariableManager(); }
+    private static final class Singleton { private static final VariableFactory INSTANCE = new VariableFactory(); }
 
-    private ConcurrentHashMap<String, VariableInfo> variableMap = new ConcurrentHashMap<>();
+    private Map<String, VariableInfo> variableMap = new ConcurrentHashMap<>();
 
-    public VariableManager() {
+    public VariableFactory() {
         // noting
     }
 
-    public static VariableManager getInstance() {
+    public static VariableFactory getInstance() {
         return Singleton.INSTANCE;
     }
 
+    // 해당 변수에 대한 값을 설정하는 메서드
     public String createVariableInfo (String name) {
         if(name.isEmpty()) {
             return "";
@@ -48,11 +50,7 @@ public class VariableManager {
         }
     }
 
-    public ConcurrentHashMap<String, VariableInfo> getVariableMap() {
-        return variableMap;
-    }
-
-    public void setVariableMap(ConcurrentHashMap<String, VariableInfo> variableMap) {
+    public void setVariableMap(Map<String, VariableInfo> variableMap) {
         this.variableMap = variableMap;
     }
 

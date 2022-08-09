@@ -2,6 +2,7 @@ package moomoo.rmq.simulator.module.message;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -9,7 +10,7 @@ public class MessageManager {
 
     private static final class Singleton { private static final MessageManager INSTANCE = new MessageManager(); }
 
-    private ConcurrentHashMap<String, MessageInfo> messageMap = new ConcurrentHashMap<>();
+    private Map<String, MessageInfo> messageMap = new ConcurrentHashMap<>();
 
     public MessageManager() {
         // noting
@@ -19,11 +20,7 @@ public class MessageManager {
         return Singleton.INSTANCE;
     }
 
-    public ConcurrentHashMap<String, MessageInfo> getMessageMap() {
-        return messageMap;
-    }
-
-    public void setMessageMap(ConcurrentHashMap<String, MessageInfo> messageMap) {
+    public void setMessageMap(Map<String, MessageInfo> messageMap) {
         this.messageMap = messageMap;
     }
 }

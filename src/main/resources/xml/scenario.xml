@@ -10,11 +10,10 @@
         </recv>
     </scenario>
 
-    <scenario name="group_create_fail" count="10" key="gId">
+    <scenario name="group_create_fail" count="10" id="gId">
         <pause ms="1000"/>
-        <send msg="group_create_req"></send>
-        <recv msg="group_create_res">
-            <variable name="gId" expect="[gId]"/>
+        <send name="group_create_req"></send>
+        <recv name="group_create_res">
             <variable name="rCode" expect="200"/>
             <variable name="rStr" expect="Success"/>
         </recv>
