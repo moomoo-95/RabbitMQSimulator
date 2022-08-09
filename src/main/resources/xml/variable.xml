@@ -2,7 +2,9 @@
 <variables>
     <variable name="tId" type="UUID"/>
     <variable name="time" type="Date" format="yyyy-mm-dd HH:MM:ss.SSS"/>
-    <variable name="gId" type="String" length="12" format="*_*"/>
+    <variable name="gId" type="String" length="12"/>
     <variable name="gKey" type="String" length="17"/>
     <variable name="mcCount" type="int"/>
+    <variable name="rStr" type="String"/>
+    <variable name="rCode" type="int"/>
 </variables>

@@ -3,12 +3,14 @@ package moomoo.rmq.simulator.module.variable;
 public class VariableInfo {
     private final String name;
     private final String type;
-    private int length;
-    private String format;
+    private final int length;
+    private final String format;
 
-    public VariableInfo(String name, String type) {
+    public VariableInfo(String name, String type, int length, String format) {
         this.name = name;
         this.type = type;
+        this.length = length;
+        this.format = format;
     }
 
     public String getName() {
@@ -23,16 +25,8 @@ public class VariableInfo {
         return length;
     }
 
-    public void setLength(int length) {
-        this.length = length;
-    }
-
     public String getFormat() {
         return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
     }
 
     @Override

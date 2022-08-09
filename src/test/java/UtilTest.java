@@ -1,12 +1,17 @@
 import lombok.extern.slf4j.Slf4j;
 import moomoo.rmq.rmqif.module.util.PasswordEncryptor;
 import moomoo.rmq.simulator.AppInstance;
+import moomoo.rmq.simulator.util.CommonUtil;
 import moomoo.rmq.simulator.util.MsgParser;
+import moomoo.rmq.simulator.util.VariableUtil;
 import moomoo.rmq.simulator.util.XmlParser;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class UtilTest {
@@ -54,42 +59,11 @@ public class UtilTest {
     }
 
     @Test
-    public void msgParseTest2() {
-//        String str = "][]][]][][]]][][]]]]][]]][][]]][][]]][]]][][]dsadsadd]d[qw]d[][saf[]]]" +
-//                "[]]][][]][][]][]][]]][][[]][]]][][]v][]][]]][][]v][[][][][]]][][][]]][][]]]" +
-//                "][][][]][]]]][]]][][][][]][]]][][]v][[][]]][][]]]][]][]]][][]vgregrgrrs][][" +
-//                "]]][][]][]]][][][]][da]sd[as]f][af[as][saf]asf[]as[f]af[]f][]][][]]][]]][][" +
-//                "[]]][][]][][]][]][]]][][[]][]]][][]v][]][]]][][]v][[][][][]]][][][]]][][]]]" +
-//                "][][][]][]]]][]]][][][][]][]]][][]v][[][]]][][]]]][]][]]][][]vgregrgrrs][][" +
-//                "]]][][]][]]][][][]][da]sd[as]f][af[as][saf]asf[]as[f]af[]f][]][][]]][]]][][" +
-//                "[]]][][]][][]][]][]]][][[]][]]][][]v][]][]]][][]v][[][][][]]][][][]]][][]]]" +
-//                "][][][]][]]]][]]][][][][]][]]][][]v][[][]]][][]]]][]][]]][][]vgregrgrrs][][" +
-//                "]]][][]][]]][][][]][da]sd[as]f][af[as][saf]asf[]as[f]af[]f][]][][]]][]]][][" +
-//                "[]]][][]][][]][]][]]][][[]][]]][][]v][]][]]][][]v][[][][][]]][][][]]][][]]]" +
-//                "][][][]][]]]][]]][][][][]][]]][][]v][[][]]][][]]]][]][]]][][]vgregrgrrs][][" +
-//                "]]][][]][]]][][][]][da]sd[as]f][af[as][saf]asf[]as[f]af[]f][]][][]]][]]][][" +
-//                "[]]][][]][][]][]][]]][][[]][]]][][]v][]][]]][][]v][[][][][]]][][][]]][][]]]" +
-//                "][][][]][]]]][]]][][][][]][]]][][]v][[][]]][][]]]][]][]]][][]vgregrgrrs][][" +
-//                "]]][][]][]]][][][]][da]sd[as]f][af[as][saf]asf[]as[f]af[]f][]][][]]][]]][][" +
-//                "[]]][][]][][]][]][]]][][[]][]]][][]v][]][]]][][]v][[][][][]]][][][]]][][]]]" +
-//                "][][][]][]]]][]]][][][][]][]]][][]v][[][]]][][]]]][]][]]][][]vgregrgrrs][][" +
-//                "]]][][]][]]][][][]][da]sd[as]f][af[as][saf]asf[]as[f]af[]f][]][][]]][]]][][" +
-//                "]][]]][][]][]]][][]v][]]][][]][]]]dasdasdasdsadsdadssssdsa[][]][]]][][]vv[]";
-//
-//        log.debug("start");
-//        long start1 = System.currentTimeMillis();
-//        for(int idx = 0; idx < 100000; idx++) {
-//            MsgParser.findVariableIndex(str);
-//        }
-//        long end1 = System.currentTimeMillis();
-//
-//        log.debug("a : {}", (end1 - start1));
-//        long start2 = System.currentTimeMillis();
-//        for(int idx = 0; idx < 100000; idx++) {
-//            MsgParser.findVariableIndex2(str);
-//        }
-//        long end2 = System.currentTimeMillis();
-//
-//        log.debug("b : {}", (end2 - start2));
+    public void regexTest() {
+        for (int idx = 0; idx < 1000; idx++) {
+            log.debug(VariableUtil.createRandomInt(10));
+//            log.debug(VariableUtil.createRandomString(1));
+        }
+
     }
 }

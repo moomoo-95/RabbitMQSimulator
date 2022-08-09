@@ -2,10 +2,10 @@ package moomoo.rmq.simulator.module.variable;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static moomoo.rmq.simulator.module.base.VariableType.*;
+import static moomoo.rmq.simulator.util.VariableUtil.*;
 
 @Slf4j
 public class VariableManager {
@@ -34,16 +34,14 @@ public class VariableManager {
         }
 
         switch (variableInfo.getType().toLowerCase()) {
-            case "uuid":
-                return UUID.randomUUID().toString();
-            case "date":
-                return new SimpleDateFormat(variableInfo.getFormat()).format(new Date(System.currentTimeMillis()));
-//            case "string":
-//                break;
-//            case "int":
-//                break;
-//            case "long":
-//                break;
+            case VARIABLE_TYPE_UUID:
+                return createUUID();
+            case VARIABLE_TYPE_DATE:
+                return createCurrentDate(variableInfo.getFormat());
+            case VARIABLE_TYPE_STRING:
+                return createRandomString(variableInfo.getLength());
+            case VARIABLE_TYPE_INT:
+                return createRandomInt(variableInfo.getLength());
             default:
                 log.debug("variable type [{}] is not a supported type.", variableInfo.getType());
                 return "";

@@ -12,7 +12,12 @@ import org.w3c.dom.NodeList;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static moomoo.rmq.simulator.module.base.VariableType.VARIABLE_TYPE_STRING;
+import static moomoo.rmq.simulator.module.base.VariableType.isVariableType;
+import static moomoo.rmq.simulator.util.CommonUtil.isInteger;
 
 /**
  * @class XmlParser
@@ -96,18 +101,26 @@ public class XmlParser {
 
         for (int index = 0; index < variableNode.getLength(); index++) {
             Element variableElement = (Element) variableNode.item(index);
-
+            // essential
             String name = variableElement.getAttribute(NAME_ATTRIBUTE);
             String type = variableElement.getAttribute(TYPE_ATTRIBUTE);
+            if(!isVariableType(type)) {
+                log.warn("{} is not define type {} -> {}", type, type, VARIABLE_TYPE_STRING);
+                type = VARIABLE_TYPE_STRING;
+            }
+            // optional
             String length = variableElement.getAttribute(LENGTH_ATTRIBUTE);
+            if (!isInteger(length)) length = "-1";
             String format = variableElement.getAttribute(FORMAT_ATTRIBUTE);
-            VariableInfo variableInfo = new VariableInfo(name, type);
-            if(CommonUtil.isInteger(length)) {
-                variableInfo.setLength(Integer.parseInt(length));
+            try {
+                new SimpleDateFormat(format);
+            } catch (IllegalArgumentException e) {
+                log.warn("{} is IllegalArgumentException {} -> null", format, format);
+                format = "";
             }
-            if (!format.isEmpty()) {
-                variableInfo.setFormat(format);
-            }
+
+            VariableInfo variableInfo = new VariableInfo(name, type, Integer.parseInt(length), format);
+
             if(variableMap.putIfAbsent(name, variableInfo) != null) {
                 log.warn("variable name [{}] is already exist", name);
             }

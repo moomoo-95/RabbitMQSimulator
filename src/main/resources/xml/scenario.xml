@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Scenarios>
+<scenarios>
+    <scenario name="group_create_success" count="10" key="gId">
+        <pause ms="1000"/>
+        <send msg="group_create_req"></send>
+        <recv msg="group_create_res">
+            <variable name="gId" expect="[gId]"/>
+            <variable name="rCode" expect="200"/>
+            <variable name="rStr" expect="Success"/>
+        </recv>
+    </scenario>
 
-</Scenarios>
+    <scenario name="group_create_fail" count="10" key="gId">
+        <pause ms="1000"/>
+        <send msg="group_create_req"></send>
+        <recv msg="group_create_res">
+            <variable name="gId" expect="[gId]"/>
+            <variable name="rCode" expect="200"/>
+            <variable name="rStr" expect="Success"/>
+        </recv>
+    </scenario>
+</scenarios>
