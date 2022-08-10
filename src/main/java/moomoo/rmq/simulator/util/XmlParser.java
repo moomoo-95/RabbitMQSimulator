@@ -125,7 +125,7 @@ public class XmlParser {
                 }
             }
 
-            ScenarioManager.getInstance().setMessageMap(scenarioInfoMap);
+            ScenarioManager.getInstance().setScenarioMap(scenarioInfoMap);
 
             scenarioInfoMap.forEach( (k, v) -> log.debug("Scenario [{}] : {}", k, v.toString()) );
             log.debug("{} Scenario parsing... (OK)", config.getCommonScenarioFile());

@@ -20,8 +20,23 @@ public class ScenarioManager {
         return Singleton.INSTANCE;
     }
 
-    public void setMessageMap(Map<String, ScenarioInfo> scenarioInfoMap) {
+    public Map<String, ScenarioInfo> getScenarioInfoMap() {
+        return scenarioInfoMap;
+    }
+
+    public void setScenarioMap(Map<String, ScenarioInfo> scenarioInfoMap) {
         this.scenarioInfoMap = scenarioInfoMap;
+    }
+
+    public ScenarioInfo getScenarioInfo(String name) {
+        if (name == null) {
+            log.warn("name is null.");
+        }
+        return this.scenarioInfoMap.get(name);
+    }
+
+    public int getScenarioSize() {
+        return this.scenarioInfoMap.size();
     }
 
 }

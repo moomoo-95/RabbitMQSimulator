@@ -17,6 +17,5 @@ public class SimulatorMain {
         if (!appInstance.setResources()) return;
 
         ServiceManager.getInstance().loop();
-
     }
 }

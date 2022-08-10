@@ -54,7 +54,7 @@ public class RmqServer {
 
     public void stop() {
         if (rmqReceiver != null) {
-            rmqReceiver.receiveStop();
+            rmqReceiver.disconnect();
             rmqReceiver = null;
         }
     }

@@ -66,7 +66,7 @@ public class MsgParser {
         MessageManager.getInstance().setMessageMap(messageMap);
 
         messageMap.forEach( (k, v) -> log.debug("Message [{}] : {}", k, v.toString()) );
-        log.debug("{} Message parsing... (OK)", config.getCommonScenarioFile());
+        log.debug("{} Message parsing... (OK)", config.getCommonMsgPath());
         return true;
     }
 

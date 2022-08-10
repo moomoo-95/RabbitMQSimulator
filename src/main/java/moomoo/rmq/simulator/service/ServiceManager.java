@@ -2,6 +2,7 @@ package moomoo.rmq.simulator.service;
 
 import lombok.extern.slf4j.Slf4j;
 import moomoo.rmq.rmqif.RmqManager;
+import moomoo.rmq.simulator.cli.ScenarioCli;
 import moomoo.rmq.simulator.util.CommonUtil;
 
 import java.io.File;
@@ -37,10 +38,11 @@ public class ServiceManager {
         Runtime.getRuntime().addShutdownHook(new Thread( () -> {
             try {
                 stopService();
+                systemUnlock();
                 log.error(
                         "\n============================================\n" +
-                        "=== {} Process shutdown ===\n" +
-                        "============================================\n", SERVICE_NAME);
+                                "=== {} Process shutdown ===\n" +
+                                "============================================\n", SERVICE_NAME);
             } catch (Exception e) {
                 log.error("addShutdownHook ", e);
             }
@@ -52,18 +54,19 @@ public class ServiceManager {
             CommonUtil.trySleep(1000);
         }
         log.debug("{} Process End", SERVICE_NAME);
-
     }
 
     private void startService() {
         systemLock();
 
         RmqManager.getInstance().startRmq();
+
+        ScenarioCli scenarioCli = new ScenarioCli();
+        scenarioCli.startCil();
     }
 
-    private void stopService() {
+    public void stopService() {
         RmqManager.getInstance().stopRmq();
-        systemUnlock();
         isQuit = true;
     }
 

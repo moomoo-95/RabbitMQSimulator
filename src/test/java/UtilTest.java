@@ -1,12 +1,14 @@
 import lombok.extern.slf4j.Slf4j;
 import moomoo.rmq.rmqif.module.util.PasswordEncryptor;
 import moomoo.rmq.simulator.AppInstance;
+import moomoo.rmq.simulator.cli.ScenarioCli;
 import moomoo.rmq.simulator.module.scenario.ScenarioManager;
 import moomoo.rmq.simulator.module.variable.VariableFactory;
 import moomoo.rmq.simulator.util.CommonUtil;
 import moomoo.rmq.simulator.util.MsgParser;
 import moomoo.rmq.simulator.util.VariableUtil;
 import moomoo.rmq.simulator.util.XmlParser;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -31,11 +33,31 @@ public class UtilTest {
         String encPasswd = cryptor.encrypt(PASSWORD);
         String decPasswd = cryptor.decrypt(encPasswd);
 
-        log.debug("ori : {}", PASSWORD);
-        log.debug("enc : {}", encPasswd);
-        log.debug("dec : {}", decPasswd);
-
+        Assert.assertTrue(PASSWORD.equals(decPasswd));
+        log.debug("ori : {} / enc : {} / dec : {}", PASSWORD, encPasswd, decPasswd);
     }
+
+    @Test
+    public void fileParsingTest() {
+        AppInstance.getInstance().setConfig("src/main/resources/config/user_config.ini");
+
+        Assert.assertTrue(XmlParser.readVariableXmlFile());
+        Assert.assertTrue(MsgParser.readMsgDir());
+        Assert.assertTrue(XmlParser.readScenarioXmlFile());
+   }
+
+   @Test
+   public void cliTest() {
+       AppInstance.getInstance().setConfig("src/main/resources/config/user_config.ini");
+
+       Assert.assertTrue(XmlParser.readVariableXmlFile());
+       Assert.assertTrue(MsgParser.readMsgDir());
+       Assert.assertTrue(XmlParser.readScenarioXmlFile());
+
+       ScenarioCli cli = new ScenarioCli();
+       cli.startCil();
+   }
+
 
     @Test
     public void typeTest() {
@@ -47,13 +69,6 @@ public class UtilTest {
         log.debug("{} {}", uuid.toString(), uuid.toString().length());
     }
 
-    @Test
-    public void xmlParseTest() {
-        AppInstance.getInstance().setConfig("src/main/resources/config/user_config.ini");
-        XmlParser.readVariableXmlFile();
-        MsgParser.readMsgDir();
-        XmlParser.readScenarioXmlFile();
-   }
 
 
     @Test

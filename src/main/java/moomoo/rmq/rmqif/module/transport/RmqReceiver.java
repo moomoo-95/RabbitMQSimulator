@@ -65,16 +65,6 @@ public class RmqReceiver extends RmqTransport {
         }
     }
 
-    public void receiveStop() {
-        if (this.isConnected()) {
-            try {
-                this.getChannel().close();
-            } catch (Exception e) {
-                log.error("RmqReceiver.stop ", e);
-            }
-        }
-    }
-
     public void setCallback(RmqCallback callback) {
         this.callback = callback;
     }

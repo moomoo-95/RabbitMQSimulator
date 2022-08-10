@@ -37,6 +37,7 @@ public class RmqClient {
         } catch (Exception e) {
             log.error("RMQ Password is not available", e);
         }
+
         rmqSender = new RmqSender(host, queueName, userName, decPass, port);
 
         if (rmqSender.connect(false)) {
