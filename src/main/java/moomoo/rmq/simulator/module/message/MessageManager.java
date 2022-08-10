@@ -23,4 +23,8 @@ public class MessageManager {
     public void setMessageMap(Map<String, MessageInfo> messageMap) {
         this.messageMap = messageMap;
     }
+
+    public boolean isMessageKey(String key) {
+        return messageMap.containsKey(key);
+    }
 }

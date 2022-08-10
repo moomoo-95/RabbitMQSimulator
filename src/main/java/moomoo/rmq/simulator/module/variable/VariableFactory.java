@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static moomoo.rmq.simulator.module.base.VariableType.*;
+import static moomoo.rmq.simulator.module.base.ValueType.*;
 import static moomoo.rmq.simulator.util.VariableUtil.*;
 
 @Slf4j

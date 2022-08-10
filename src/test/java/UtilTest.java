@@ -1,6 +1,8 @@
 import lombok.extern.slf4j.Slf4j;
 import moomoo.rmq.rmqif.module.util.PasswordEncryptor;
 import moomoo.rmq.simulator.AppInstance;
+import moomoo.rmq.simulator.module.scenario.ScenarioManager;
+import moomoo.rmq.simulator.module.variable.VariableFactory;
 import moomoo.rmq.simulator.util.CommonUtil;
 import moomoo.rmq.simulator.util.MsgParser;
 import moomoo.rmq.simulator.util.VariableUtil;
@@ -49,14 +51,10 @@ public class UtilTest {
     public void xmlParseTest() {
         AppInstance.getInstance().setConfig("src/main/resources/config/user_config.ini");
         XmlParser.readVariableXmlFile();
-    }
-
-    @Test
-    public void msgParseTest() {
-        AppInstance.getInstance().setConfig("src/main/resources/config/user_config.ini");
-        XmlParser.readVariableXmlFile();
         MsgParser.readMsgDir();
-    }
+        XmlParser.readScenarioXmlFile();
+   }
+
 
     @Test
     public void regexTest() {

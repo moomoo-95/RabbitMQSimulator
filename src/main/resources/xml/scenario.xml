@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scenarios>
-    <scenario name="group_create_success" count="10" key="gId">
-        <pause ms="1000"/>
-        <send msg="group_create_req"></send>
-        <recv msg="group_create_res">
-            <variable name="gId" expect="[gId]"/>
-            <variable name="rCode" expect="200"/>
-            <variable name="rStr" expect="Success"/>
-        </recv>
+    <scenario name="group_create_success" count="10" id="gId">
+        <command type="pause" ms="1000"/>
+        <command type="send" name="group_create_req"/>
+        <command type="recv" name="group_create_res">
+            <variable name="rCode" value="200"/>
+            <variable name="rStr" value="Success"/>
+        </command>
     </scenario>
 
     <scenario name="group_create_fail" count="10" id="gId">
-        <pause ms="1000"/>
-        <send name="group_create_req"></send>
-        <recv name="group_create_res">
-            <variable name="rCode" expect="200"/>
-            <variable name="rStr" expect="Success"/>
-        </recv>
+        <command type="pause" ms="1000"/>
+        <command type="send" name="group_create_req">
+            <variable name="gId" value="abcd_ef_ghij"/>
+        </command>
+        <command type="recv" name="group_create_res">
+            <variable name="rCode" value="0"/>
+            <variable name="rStr" value="Fail"/>
+        </command>
     </scenario>
+
+    <!--  -->
 </scenarios>

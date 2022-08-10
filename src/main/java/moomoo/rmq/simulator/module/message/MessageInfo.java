@@ -34,14 +34,10 @@ public class MessageInfo {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("MessageInfo{" +
+        return "MessageInfo{" +
                 "fileName='" + fileName + '\'' +
                 ", variableIndex=" + variableIndex +
-                ", message=\n");
-        for (int idx = 0; idx < message.size(); idx++) {
-            stringBuilder.append(idx + " : " + message.get(idx) + "\n");
-        }
-        stringBuilder.append("}\n");
-        return stringBuilder.toString();
+                ", message=" + message +
+                '}';
     }
 }
