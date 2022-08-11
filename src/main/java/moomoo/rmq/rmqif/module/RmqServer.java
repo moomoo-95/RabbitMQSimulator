@@ -1,32 +1,54 @@
 package moomoo.rmq.rmqif.module;
 
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Consumer;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
 import lombok.extern.slf4j.Slf4j;
-import moomoo.rmq.rmqif.module.transport.RmqReceiver;
-import moomoo.rmq.rmqif.module.transport.base.RmqCallback;
-import moomoo.rmq.rmqif.module.util.PasswordEncryptor;
-import moomoo.rmq.simulator.AppInstance;
+import moomoo.rmq.rmqif.module.transport.RmqCallback;
+import moomoo.rmq.rmqif.module.transport.RmqTransport;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
 @Slf4j
-public class RmqServer {
-    private final String host;
-    private final String queueName;
-    private final String userName;
-    private final String password;
-    private final int port;
+public class RmqServer extends RmqTransport {
 
     private final BlockingQueue<String> queue;
-
-    private RmqReceiver rmqReceiver;
+    private final RmqCallback callback;
+    private final Consumer consumer;
 
     public RmqServer(String host, String queueName, String userName, String password, int port, BlockingQueue<String> queue) {
-        this.host = host;
-        this.queueName = queueName;
-        this.userName = userName;
-        this.password = password;
-        this.port = port;
+        super(host, queueName, userName, password, port);
+
+        this.callback = new MessageCallback();
+        this.consumer = new DefaultConsumer(getChannel()) {
+            @Override
+            // 메시지가 큐에 적재되면 호출되는 메서드
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                String msg = new String(body, StandardCharsets.UTF_8);
+                if ( callback != null ) {
+                    try {
+                        Date ts = null;
+                        Map<String, Object> headers = properties.getHeaders();
+                        if (headers != null) {
+                            Long ms = (Long)headers.get("timestamp_in_ms");
+                            if (ms != null) {
+                                ts = new Date(ms);
+                            }
+                        }
+                        callback.onReceived( msg, ts );
+                    }
+                    catch (Exception e) {
+                        log.error("RmqReceiver.handleDelivery ",e);
+                    }
+                }
+            }
+        };
+
         this.queue = queue;
     }
 
@@ -34,29 +56,25 @@ public class RmqServer {
      * 암호화된 password 를 복호화하여 RabbitMQ Server 에 연결
      */
     public boolean start() {
-        PasswordEncryptor decryptor = new PasswordEncryptor(AppInstance.KEY, AppInstance.ALGORITHM);
-        String decPass = "";
+        if (connect(true)) {
+            if (!this.isConnected()) {
+                log.warn("RMQ channel is not opened");
+                return false;
+            }
 
-        try {
-            decPass = decryptor.decrypt(password);
-        } catch (Exception e) {
-            log.error("RMQ Password is not available", e);
-        }
-
-        rmqReceiver = new RmqReceiver(host, queueName, userName, decPass, port);
-        rmqReceiver.setCallback(new MessageCallback());
-
-        if (rmqReceiver.connect(true)) {
-            return rmqReceiver.setReceive();
+            try {
+                this.getChannel().basicConsume(getQueueName(), true, this.consumer);
+                return true;
+            } catch (Exception e) {
+                log.error("RmqReceiver.start", e);
+                return false;
+            }
         }
         return false;
     }
 
     public void stop() {
-        if (rmqReceiver != null) {
-            rmqReceiver.disconnect();
-            rmqReceiver = null;
-        }
+        disconnect();
     }
 
     /**

@@ -1,6 +1,8 @@
 package moomoo.rmq.simulator.config;
 
 import lombok.extern.slf4j.Slf4j;
+import moomoo.rmq.rmqif.module.util.PasswordEncryptor;
+import moomoo.rmq.simulator.AppInstance;
 import moomoo.rmq.simulator.util.CommonUtil;
 import org.ini4j.Ini;
 
@@ -83,6 +85,13 @@ public class UserConfig {
         this.rmqUser = getIniValue(SECTION_RMQ, FIELD_RMQ_USER);
         this.rmqPort = Integer.parseInt(getIniValue(SECTION_RMQ, FIELD_RMQ_PORT, CommonUtil::isInteger));
         this.rmqPass = getIniValue(SECTION_RMQ, FIELD_RMQ_PASS);
+        try {
+            PasswordEncryptor decryptor = new PasswordEncryptor(AppInstance.KEY, AppInstance.ALGORITHM);
+            this.rmqPass = decryptor.decrypt(rmqPass);
+        } catch (Exception e) {
+            log.error("RMQ Password is not available", e);
+        }
+
         this.rmqLocalQueue = getIniValue(SECTION_RMQ, FIELD_RMQ_LOCAL_Q);
         this.rmqTargetQueue = getIniValue(SECTION_RMQ, FIELD_RMQ_TARGET_Q);
         this.rmqAutoRecovery = Boolean.parseBoolean(getIniValue(SECTION_RMQ, FIELD_RMQ_AUTO_RECOVERY));

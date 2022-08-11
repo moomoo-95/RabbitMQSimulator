@@ -1,4 +1,4 @@
-package moomoo.rmq.rmqif.module.transport.base;
+package moomoo.rmq.rmqif.module.transport;
 
 import java.util.Date;
 

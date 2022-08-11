@@ -1,4 +1,4 @@
-package moomoo.rmq.rmqif.module.transport.base;
+package moomoo.rmq.rmqif.module.transport;
 
 import com.rabbitmq.client.*;
 import com.rabbitmq.client.impl.DefaultExceptionHandler;

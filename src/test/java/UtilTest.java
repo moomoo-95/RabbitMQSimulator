@@ -1,10 +1,6 @@
 import lombok.extern.slf4j.Slf4j;
 import moomoo.rmq.rmqif.module.util.PasswordEncryptor;
 import moomoo.rmq.simulator.AppInstance;
-import moomoo.rmq.simulator.cli.ScenarioCli;
-import moomoo.rmq.simulator.module.scenario.ScenarioManager;
-import moomoo.rmq.simulator.module.variable.VariableFactory;
-import moomoo.rmq.simulator.util.CommonUtil;
 import moomoo.rmq.simulator.util.MsgParser;
 import moomoo.rmq.simulator.util.VariableUtil;
 import moomoo.rmq.simulator.util.XmlParser;
@@ -12,10 +8,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 @Slf4j
 public class UtilTest {
@@ -54,8 +47,6 @@ public class UtilTest {
        Assert.assertTrue(MsgParser.readMsgDir());
        Assert.assertTrue(XmlParser.readScenarioXmlFile());
 
-       ScenarioCli cli = new ScenarioCli();
-       cli.startCil();
    }
 
 

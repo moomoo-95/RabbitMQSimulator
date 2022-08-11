@@ -1,66 +1,56 @@
 package moomoo.rmq.rmqif.module;
 
 import lombok.extern.slf4j.Slf4j;
-import moomoo.rmq.rmqif.module.transport.RmqSender;
-import moomoo.rmq.rmqif.module.util.PasswordEncryptor;
-import moomoo.rmq.simulator.AppInstance;
+import moomoo.rmq.rmqif.module.transport.RmqTransport;
+
+import java.nio.charset.Charset;
 
 @Slf4j
-public class RmqClient {
-    private final String host;
-    private final String queueName;
-    private final String userName;
-    private final String password;
-    private final int port;
-
-    private RmqSender rmqSender;
-
-    private boolean isConnected = false;
+public class RmqClient extends RmqTransport {
 
     public RmqClient(String host, String queueName, String userName, String password, int port) {
-        this.host = host;
-        this.queueName = queueName;
-        this.userName = userName;
-        this.password = password;
-        this.port = port;
+        super(host, queueName, userName, password, port);
     }
 
     /**
      * 암호화된 password 를 복호화하여 RabbitMQ Server 에 연결
      */
     public boolean start() {
-        PasswordEncryptor decryptor = new PasswordEncryptor(AppInstance.KEY, AppInstance.ALGORITHM);
-        String decPass = "";
-
-        try {
-            decPass = decryptor.decrypt(password);
-        } catch (Exception e) {
-            log.error("RMQ Password is not available", e);
-        }
-
-        rmqSender = new RmqSender(host, queueName, userName, decPass, port);
-
-        if (rmqSender.connect(false)) {
-            isConnected = true;
-        }
-        return isConnected;
+        return connect(false);
     }
 
     public void stop() {
-        if (rmqSender != null) {
-            rmqSender.disconnect();
-            rmqSender = null;
+        disconnect();
+    }
+
+    /**
+     * byte array 로 변환한 길이와 이전 길이가 다르면 전송하지 않음
+     * todo 확인 필요
+     * @param msg String 을 byte 배열로 변환한 값
+     * @param size 기존 String 의 길이 값
+     * @return
+     */
+    private boolean send(byte[] msg, int size) {
+        if (!connect(false)) {
+            log.warn("RMQ channel is not opened");
+            return false;
+        }
+
+        if ((size <= 0) || (msg == null) || (msg.length < size)) {
+            log.warn("Send error: wrong param. size [{}] msg [{}]", size, (msg != null) ? msg.length : 0);
+            return false;
+        }
+
+        try {
+            this.getChannel().basicPublish("", this.getQueueName(), null, msg);
+            return true;
+        } catch (Exception e) {
+            log.error("RmqClient.send ", e);
+            return false;
         }
     }
 
     public boolean send(String msg) {
-        if (rmqSender == null) {
-            start();
-            if (rmqSender == null) return false;
-        }
-
-        if (!rmqSender.isConnected()) return false;
-
-        return rmqSender.send(msg);
+        return send(msg.getBytes(Charset.defaultCharset()), msg.length());
     }
 }

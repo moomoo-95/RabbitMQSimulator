@@ -2,7 +2,6 @@ package moomoo.rmq.simulator;
 
 import lombok.extern.slf4j.Slf4j;
 import moomoo.rmq.simulator.config.UserConfig;
-import moomoo.rmq.simulator.service.ServiceManager;
 import moomoo.rmq.simulator.util.MsgParser;
 import moomoo.rmq.simulator.util.XmlParser;
 

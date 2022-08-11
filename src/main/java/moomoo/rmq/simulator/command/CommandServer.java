@@ -1,8 +1,10 @@
 package moomoo.rmq.simulator.command;
 
 import lombok.extern.slf4j.Slf4j;
+import moomoo.rmq.simulator.module.scenario.CommandInfo;
 import moomoo.rmq.simulator.module.scenario.ScenarioInfo;
 import moomoo.rmq.simulator.module.scenario.ScenarioManager;
+import moomoo.rmq.simulator.module.session.SessionInfoManager;
 import moomoo.rmq.simulator.service.ServiceManager;
 import moomoo.rmq.simulator.util.CommonUtil;
 
@@ -10,17 +12,17 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import static moomoo.rmq.simulator.command.CommandHandler.printScenarioCommandFlow;
+import static moomoo.rmq.simulator.command.CommandHandler.printScenarioList;
+import static moomoo.rmq.simulator.module.base.ValueType.*;
+
 @Slf4j
 public class CommandServer implements Runnable {
-
-    private static final String LINE = "-------------------------------------------------\n";
 
     private static ScenarioManager scenarioManager = ScenarioManager.getInstance();
 
     private final Scanner scanner;
     private final List<String> scenarioIndexList;
-
-    private ScenarioInfo selectedScenario = null;
 
     private boolean isQuit = false;
 
@@ -31,11 +33,7 @@ public class CommandServer implements Runnable {
 
     @Override
     public void run() {
-
-        while (!isQuit) {
-            isQuit = commandLoop();
-        }
-        ServiceManager.getInstance().stopService();
+        commandLoop();
     }
 
     public void stop() {
@@ -47,27 +45,23 @@ public class CommandServer implements Runnable {
      * q 입력 또는 프로세스 종료가 되기 전까지 입력을 받기 위한 스레드
      * @return
      */
-    private boolean commandLoop() {
+    private void commandLoop() {
         int selectNumber = -1;
 
-        while (selectNumber == -1) {
+        while (!isQuit && selectNumber == -1) {
             selectNumber = selectScenario();
-            if(isQuit || selectNumber == -2) return true;
         }
-        // todo 선택된 시나리오 처리 부분
-
-        selectedScenario = null;
-        return false;
+        ServiceManager.getInstance().stopService();
     }
 
     /**
      * 실행시킬 시나리오를 입력받는 메서드
      */
     private int selectScenario() {
-        printScenarioList();
+        printScenarioList(scenarioIndexList);
 
         String input = scanner.next();
-        if(input.equalsIgnoreCase("q")) { return -2; }
+        if(input.equalsIgnoreCase("q")) { stop(); }
         int selectNumber = CommonUtil.parseInteger(input, 0) - 1;
 
         return confirmSelectScenario(selectNumber);
@@ -90,40 +84,32 @@ public class CommandServer implements Runnable {
         String answer = scanner.next();
 
         if (answer.equalsIgnoreCase("y")) {
-            selectedScenario = scenarioInfo;
+
+            scenarioProcessing(scenarioInfo);
             return selectNumber;
         } else {
             return -1;
         }
     }
 
-    /**
-     * 시나리오 목록 출력
-     */
-    private void printScenarioList() {
-        StringBuilder builder = new StringBuilder("\n");
-        builder.append(LINE);
-        for(int idx = 0; idx < scenarioIndexList.size(); idx++){
-            builder.append((idx+1)+". "+scenarioIndexList.get(idx)+"\n");
-        }
-        builder.append("q. quit\n");
-        builder.append(LINE);
-        log.debug(builder.toString());
+    private void scenarioProcessing(ScenarioInfo scenarioInfo) {
+        SessionInfoManager.getInstance().createSession(scenarioInfo.getCount(), scenarioInfo.getId(), scenarioInfo.getCommandInfoList());
+
+//        scenarioInfo.getCommandInfoList().forEach(this::commandProcessing);
     }
 
-    /**
-     * 특정 시나리오의 상세 명령 흐름 출력
-     * @param scenarioInfo
-     */
-    private void printScenarioCommandFlow(ScenarioInfo scenarioInfo) {
-        StringBuilder builder = new StringBuilder("\n");
-        builder.append(LINE);
-        builder.append("["+scenarioInfo.getName()+"] [cnt : "+scenarioInfo.getCount()+"] [id : "+scenarioInfo.getId()+"] \n");
-        builder.append(LINE);
-        scenarioInfo.getCommandInfoList().forEach( c -> builder.append(c.toString()));
-        builder.append(LINE);
-        builder.append("Do you want to select this scenario?(y/n)\n");
-        builder.append(LINE);
-        log.debug(builder.toString());
+    private boolean commandProcessing(CommandInfo commandInfo) {
+        boolean result = false;
+        switch (commandInfo.getType()) {
+            case COMMAND_TYPE_PAUSE:
+                result = CommandHandler.processPauseCommand(commandInfo.getPauseTime());
+                break;
+            case COMMAND_TYPE_SEND:
+                break;
+            case COMMAND_TYPE_RECV:
+                break;
+            default:
+        }
+        return result;
     }
 }

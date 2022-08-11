@@ -62,9 +62,9 @@ public class RmqManager {
         RmqClient rmqClient = new RmqClient(config.getRmqHost(), config.getRmqTargetQueue(), config.getRmqUser(), config.getRmqPass(), config.getRmqPort());
         if (rmqClient.start()) {
             rmqClientMap.put(config.getRmqTargetQueue(), rmqClient);
-            log.debug("RabbitMQ Client Start Success. [{}], [{}], [{}]", config.getRmqTargetQueue(), config.getRmqHost(), config.getRmqUser());
+            log.debug("Rabbit MQ Client Start Success. [{}], [{}], [{}]", config.getRmqTargetQueue(), config.getRmqHost(), config.getRmqUser());
         } else {
-            log.debug("RabbitMQ Client Start Fail. [{}], [{}], [{}]", config.getRmqTargetQueue(), config.getRmqHost(), config.getRmqUser());
+            log.debug("Rabbit MQ Client Start Fail. [{}], [{}], [{}]", config.getRmqTargetQueue(), config.getRmqHost(), config.getRmqUser());
         }
     }
 
