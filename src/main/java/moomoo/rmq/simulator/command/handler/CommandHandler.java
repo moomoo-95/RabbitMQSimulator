@@ -1,7 +1,7 @@
-package moomoo.rmq.simulator.command;
+package moomoo.rmq.simulator.command.handler;
 
 import lombok.extern.slf4j.Slf4j;
-import moomoo.rmq.simulator.module.scenario.ScenarioInfo;
+import moomoo.rmq.simulator.scenario.ScenarioInfo;
 
 import java.util.List;
 

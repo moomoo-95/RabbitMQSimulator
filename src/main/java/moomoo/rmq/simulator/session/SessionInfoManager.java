@@ -1,11 +1,10 @@
-package moomoo.rmq.simulator.module.session;
+package moomoo.rmq.simulator.session;
 
 import lombok.extern.slf4j.Slf4j;
-import moomoo.rmq.simulator.module.scenario.CommandInfo;
+import moomoo.rmq.simulator.scenario.CommandInfo;
+import moomoo.rmq.simulator.util.ParsingType;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 public class SessionInfoManager {
@@ -26,8 +25,24 @@ public class SessionInfoManager {
     public void createSession(int count, String id, List<CommandInfo> commandList) {
         this.commandList = commandList;
         for (int idx = 0; idx < count; idx++) {
-            sessionSet.add(new SessionInfo(id));
+            sessionSet.add(new SessionInfo(id, commandList.size()));
         }
     }
 
+    public void clear() {
+        sessionSet.clear();
+        commandList.clear();
+    }
+
+    public boolean isAllCompleteSession() {
+        return sessionSet.stream().filter(SessionInfo::isCompleted).count() == sessionSet.size();
+    }
+
+    public Set<SessionInfo> getSessionSet() {
+        return sessionSet;
+    }
+
+    public CommandInfo getCommandInfo(int index) {
+        return commandList.get(index);
+    }
 }

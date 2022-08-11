@@ -1,9 +1,9 @@
-package moomoo.rmq.simulator.module.base;
+package moomoo.rmq.simulator.util;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class ValueType {
+public class ParsingType {
     public static final String VARIABLE_TYPE_UUID = "uuid";
     public static final String VARIABLE_TYPE_DATE = "date";
     public static final String VARIABLE_TYPE_STRING = "string";
@@ -27,7 +27,7 @@ public class ValueType {
         COMMAND_TYPE_SET.add(COMMAND_TYPE_RECV);
     }
 
-    private ValueType() {
+    private ParsingType() {
         // nothing
     }
 

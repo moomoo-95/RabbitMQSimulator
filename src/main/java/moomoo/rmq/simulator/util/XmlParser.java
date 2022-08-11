@@ -3,12 +3,12 @@ package moomoo.rmq.simulator.util;
 import lombok.extern.slf4j.Slf4j;
 import moomoo.rmq.simulator.AppInstance;
 import moomoo.rmq.simulator.config.UserConfig;
-import moomoo.rmq.simulator.module.message.MessageManager;
-import moomoo.rmq.simulator.module.scenario.CommandInfo;
-import moomoo.rmq.simulator.module.scenario.ScenarioInfo;
-import moomoo.rmq.simulator.module.scenario.ScenarioManager;
-import moomoo.rmq.simulator.module.variable.VariableFactory;
-import moomoo.rmq.simulator.module.variable.VariableInfo;
+import moomoo.rmq.simulator.message.MessageManager;
+import moomoo.rmq.simulator.scenario.CommandInfo;
+import moomoo.rmq.simulator.scenario.ScenarioInfo;
+import moomoo.rmq.simulator.scenario.ScenarioManager;
+import moomoo.rmq.simulator.variable.VariableFactory;
+import moomoo.rmq.simulator.variable.VariableInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static moomoo.rmq.simulator.module.base.ValueType.*;
+import static moomoo.rmq.simulator.util.ParsingType.*;
 import static moomoo.rmq.simulator.util.CommonUtil.parseInteger;
 
 /**

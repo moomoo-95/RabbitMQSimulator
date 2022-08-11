@@ -1,4 +1,4 @@
-package moomoo.rmq.simulator.module.variable;
+package moomoo.rmq.simulator.variable;
 
 public class VariableInfo {
     private final String name;

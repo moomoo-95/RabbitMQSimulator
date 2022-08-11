@@ -1,11 +1,11 @@
-package moomoo.rmq.simulator.module.variable;
+package moomoo.rmq.simulator.variable;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static moomoo.rmq.simulator.module.base.ValueType.*;
+import static moomoo.rmq.simulator.util.ParsingType.*;
 import static moomoo.rmq.simulator.util.VariableUtil.*;
 
 /**

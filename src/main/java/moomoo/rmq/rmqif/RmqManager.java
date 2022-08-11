@@ -17,14 +17,13 @@ public class RmqManager {
     private static UserConfig config = AppInstance.getInstance().getConfig();
 
     private final ExecutorService rmqExecutorService;
-    private final ConcurrentHashMap<String , RmqClient> rmqClientMap;
     private final BlockingQueue<String> messageQueue;
 
     private RmqServer rmqServer;
+    private RmqClient rmqClient;
 
     public RmqManager() {
         rmqExecutorService = Executors.newFixedThreadPool(config.getRmqThreadSize());
-        rmqClientMap = new ConcurrentHashMap<>();
         messageQueue = new ArrayBlockingQueue<>(config.getRmqQueueSize());
     }
 
@@ -33,7 +32,6 @@ public class RmqManager {
     }
 
     public void startRmq() {
-        // thread run
         startRmqServer();
         startRmqClient();
         startRmqConsumer();
@@ -59,9 +57,8 @@ public class RmqManager {
     // RabbitMQ Client 시작
     private void startRmqClient() {
         // AWF Client
-        RmqClient rmqClient = new RmqClient(config.getRmqHost(), config.getRmqTargetQueue(), config.getRmqUser(), config.getRmqPass(), config.getRmqPort());
+        rmqClient = new RmqClient(config.getRmqHost(), config.getRmqTargetQueue(), config.getRmqUser(), config.getRmqPass(), config.getRmqPort());
         if (rmqClient.start()) {
-            rmqClientMap.put(config.getRmqTargetQueue(), rmqClient);
             log.debug("Rabbit MQ Client Start Success. [{}], [{}], [{}]", config.getRmqTargetQueue(), config.getRmqHost(), config.getRmqUser());
         } else {
             log.debug("Rabbit MQ Client Start Fail. [{}], [{}], [{}]", config.getRmqTargetQueue(), config.getRmqHost(), config.getRmqUser());
@@ -83,9 +80,9 @@ public class RmqManager {
     }
 
     private void stopRmqClient() {
-        if (!rmqClientMap.isEmpty()) {
-            rmqClientMap.forEach((key, client) -> client.stop());
-            rmqClientMap.clear();
+        if (rmqClient != null) {
+            rmqClient.stop();
+            rmqClient = null;
         }
     }
 
@@ -93,5 +90,9 @@ public class RmqManager {
         if (!rmqExecutorService.isShutdown()) {
             rmqExecutorService.shutdown();
         }
+    }
+
+    public RmqClient getRmqClient() {
+        return rmqClient;
     }
 }

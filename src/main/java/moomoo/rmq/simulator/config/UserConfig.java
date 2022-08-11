@@ -1,7 +1,7 @@
 package moomoo.rmq.simulator.config;
 
 import lombok.extern.slf4j.Slf4j;
-import moomoo.rmq.rmqif.module.util.PasswordEncryptor;
+import moomoo.rmq.rmqif.util.PasswordEncryptor;
 import moomoo.rmq.simulator.AppInstance;
 import moomoo.rmq.simulator.util.CommonUtil;
 import org.ini4j.Ini;

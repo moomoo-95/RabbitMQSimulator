@@ -3,9 +3,9 @@ package moomoo.rmq.simulator.util;
 import lombok.extern.slf4j.Slf4j;
 import moomoo.rmq.simulator.AppInstance;
 import moomoo.rmq.simulator.config.UserConfig;
-import moomoo.rmq.simulator.module.message.MessageInfo;
-import moomoo.rmq.simulator.module.message.MessageManager;
-import moomoo.rmq.simulator.module.variable.VariableFactory;
+import moomoo.rmq.simulator.message.MessageInfo;
+import moomoo.rmq.simulator.message.MessageManager;
+import moomoo.rmq.simulator.variable.VariableFactory;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,4 +1,4 @@
-package moomoo.rmq.simulator.module.message;
+package moomoo.rmq.simulator.message;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +18,10 @@ public class MessageManager {
 
     public static MessageManager getInstance() {
         return Singleton.INSTANCE;
+    }
+
+    public MessageInfo getMessageInfo(String messageName) {
+        return messageMap.get(messageName);
     }
 
     public void setMessageMap(Map<String, MessageInfo> messageMap) {

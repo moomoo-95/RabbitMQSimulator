@@ -44,8 +44,8 @@ public class ServiceManager {
                 stopService();
                 systemUnlock();
                 log.error("\n============================================\n" +
-                                "=== {} Process shutdown ===\n" +
-                                "============================================\n", SERVICE_NAME);
+                        "=== {} Process shutdown ===\n" +
+                        "============================================\n", SERVICE_NAME);
             } catch (Exception e) {
                 log.error("addShutdownHook ", e);
             }
@@ -61,7 +61,7 @@ public class ServiceManager {
     private void startService() {
         systemLock();
 
-        RmqManager.getInstance().startRmq();
+//        RmqManager.getInstance().startRmq();
 
         commandServer = new CommandServer();
         commandServer.run();
@@ -70,7 +70,7 @@ public class ServiceManager {
     public void stopService() {
         commandServer.stop();
 
-        RmqManager.getInstance().stopRmq();
+//        RmqManager.getInstance().stopRmq();
         isQuit = true;
     }
 

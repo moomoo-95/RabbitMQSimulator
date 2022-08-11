@@ -1,4 +1,4 @@
-package moomoo.rmq.rmqif.module.util;
+package moomoo.rmq.rmqif.util;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.EnvironmentPBEConfig;

@@ -1,4 +1,4 @@
-package moomoo.rmq.simulator.module.scenario;
+package moomoo.rmq.simulator.scenario;
 
 import java.util.ArrayList;
 import java.util.List;

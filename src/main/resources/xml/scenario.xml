@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scenarios>
-    <scenario name="group_create_success" count="10" id="gId">
+    <scenario name="group_create_success" count="2" id="gId">
+        <command type="pause" ms="1000"/>
+        <command type="send" name="group_create_req"/>
         <command type="pause" ms="1000"/>
         <command type="send" name="group_create_req"/>
         <command type="recv" name="group_create_res">

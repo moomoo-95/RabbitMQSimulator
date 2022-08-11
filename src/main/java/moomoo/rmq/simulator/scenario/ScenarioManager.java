@@ -1,4 +1,4 @@
-package moomoo.rmq.simulator.module.scenario;
+package moomoo.rmq.simulator.scenario;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,5 +1,6 @@
-package moomoo.rmq.simulator.module.message;
+package moomoo.rmq.simulator.message;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageInfo {
@@ -25,7 +26,7 @@ public class MessageInfo {
     }
 
     public List<String> getMessage() {
-        return message;
+        return new ArrayList<>(message);
     }
 
     public void setMessage(List<String> message) {
