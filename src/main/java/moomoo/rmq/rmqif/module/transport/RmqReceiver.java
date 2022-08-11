@@ -50,7 +50,7 @@ public class RmqReceiver extends RmqTransport {
         };
     }
 
-    public boolean receiveStart() {
+    public boolean setReceive() {
         if (!this.isConnected()) {
             log.warn("RMQ channel is not opened");
             return false;

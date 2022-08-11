@@ -1,5 +1,7 @@
 package moomoo.rmq.simulator.module.scenario;
 
+import moomoo.rmq.simulator.module.base.ValueType;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,11 +50,10 @@ public class CommandInfo {
 
     @Override
     public String toString() {
-        return "CommandInfo{" +
-                "type='" + type + '\'' +
-                ", name='" + name + '\'' +
-                ", pauseTime=" + pauseTime +
-                ", valueMap=" + valueMap +
-                '}';
+        if(type.equalsIgnoreCase(ValueType.COMMAND_TYPE_PAUSE)) {
+            return "[" + type + "] " + pauseTime + "ms\n";
+        } else {
+            return " [" + type + "] " + name + "\n - variables : " + valueMap.toString() + "\n";
+        }
     }
 }

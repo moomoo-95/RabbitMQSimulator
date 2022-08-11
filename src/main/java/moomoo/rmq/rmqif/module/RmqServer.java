@@ -47,7 +47,7 @@ public class RmqServer {
         rmqReceiver.setCallback(new MessageCallback());
 
         if (rmqReceiver.connect(true)) {
-            return rmqReceiver.receiveStart();
+            return rmqReceiver.setReceive();
         }
         return false;
     }

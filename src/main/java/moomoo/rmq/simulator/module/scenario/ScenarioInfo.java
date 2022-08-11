@@ -41,11 +41,8 @@ public class ScenarioInfo {
 
     @Override
     public String toString() {
-        return "ScenarioInfo{" +
-                "name='" + name + '\'' +
-                ", count=" + count +
-                ", id='" + id + '\'' +
-                ", commandInfoList=" + commandInfoList.toString() +
-                '}';
+        StringBuilder builder = new StringBuilder("ScenarioInfo{name='" + name + "', count=" + count + ", id='" + id + "'\ncommandInfoList=\n");
+        commandInfoList.forEach( c -> builder.append(c.toString()));
+        return builder.toString();
     }
 }
