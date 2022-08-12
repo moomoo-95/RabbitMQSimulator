@@ -7,7 +7,10 @@ import moomoo.rmq.rmqif.module.RmqServer;
 import moomoo.rmq.simulator.AppInstance;
 import moomoo.rmq.simulator.config.UserConfig;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Slf4j
 public class RmqManager {

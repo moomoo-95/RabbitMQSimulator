@@ -1,9 +1,12 @@
 package moomoo.rmq.simulator.session;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Slf4j
 public class SessionInfo {
     private final String id;
     private final int commandSize;
@@ -21,9 +24,18 @@ public class SessionInfo {
         this.wakeUpTime = 0L;
     }
 
-    public String putAndGetVariable(String key, String value) {
-        variableMap.putIfAbsent(key, value);
+    public String updateAndGetVariable(String key, String value) {
+        if(variableMap.containsKey(key)) variableMap.replace(key, value);
+        else variableMap.put(key, value);
         return variableMap.get(key);
+    }
+
+    public String getVariable(String key) {
+        return variableMap.get(key);
+    }
+
+    public boolean isVariableExist(String key) {
+        return variableMap.containsKey(key);
     }
 
     public int getCommandIndex() {

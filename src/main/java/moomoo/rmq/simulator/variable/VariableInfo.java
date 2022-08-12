@@ -3,12 +3,14 @@ package moomoo.rmq.simulator.variable;
 public class VariableInfo {
     private final String name;
     private final String type;
+    private final boolean fixed;
     private final int length;
     private final String format;
 
-    public VariableInfo(String name, String type, int length, String format) {
+    public VariableInfo(String name, String type, boolean fixed, int length, String format) {
         this.name = name;
         this.type = type;
+        this.fixed = fixed;
         this.length = length;
         this.format = format;
     }
@@ -19,6 +21,10 @@ public class VariableInfo {
 
     public String getType() {
         return type;
+    }
+
+    public boolean isFixed() {
+        return fixed;
     }
 
     public int getLength() {
@@ -34,6 +40,7 @@ public class VariableInfo {
         return "VariableInfo{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
+                ", fixed=" + fixed +
                 ", length=" + length +
                 ", format='" + format + '\'' +
                 '}';

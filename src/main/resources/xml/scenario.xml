@@ -4,7 +4,12 @@
         <command type="pause" ms="1000"/>
         <command type="send" name="group_create_req"/>
         <command type="pause" ms="1000"/>
+        <command type="send" name="group_create_req">
+            <variable name="tId" value="abcd_ef_ghij"/>
+        </command>
+        <command type="pause" ms="1000"/>
         <command type="send" name="group_create_req"/>
+        <command type="pause" ms="1000"/>
         <command type="recv" name="group_create_res">
             <variable name="rCode" value="200"/>
             <variable name="rStr" value="Success"/>
@@ -14,7 +19,7 @@
     <scenario name="group_create_fail" count="10" id="gId">
         <command type="pause" ms="1000"/>
         <command type="send" name="group_create_req">
-            <variable name="gId" value="abcd_ef_ghij"/>
+            <variable name="tId" value="abcd_ef_ghij"/>
         </command>
         <command type="recv" name="group_create_res">
             <variable name="rCode" value="0"/>

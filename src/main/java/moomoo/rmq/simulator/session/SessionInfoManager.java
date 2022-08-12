@@ -2,9 +2,11 @@ package moomoo.rmq.simulator.session;
 
 import lombok.extern.slf4j.Slf4j;
 import moomoo.rmq.simulator.scenario.CommandInfo;
-import moomoo.rmq.simulator.util.ParsingType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 public class SessionInfoManager {
@@ -23,7 +25,7 @@ public class SessionInfoManager {
     }
 
     public void createSession(int count, String id, List<CommandInfo> commandList) {
-        this.commandList = commandList;
+        this.commandList = new ArrayList<>(commandList);
         for (int idx = 0; idx < count; idx++) {
             sessionSet.add(new SessionInfo(id, commandList.size()));
         }

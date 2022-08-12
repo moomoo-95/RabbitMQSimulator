@@ -20,8 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static moomoo.rmq.simulator.util.ParsingType.*;
 import static moomoo.rmq.simulator.util.CommonUtil.parseInteger;
+import static moomoo.rmq.simulator.util.ParsingType.*;
 
 /**
  * @class XmlParser
@@ -37,6 +37,7 @@ public class XmlParser {
 
     private static final String NAME_ATTRIBUTE = "name";
     private static final String TYPE_ATTRIBUTE = "type";
+    private static final String FIXED_ATTRIBUTE = "fixed";
     private static final String LENGTH_ATTRIBUTE = "length";
     private static final String FORMAT_ATTRIBUTE = "format";
 
@@ -175,13 +176,16 @@ public class XmlParser {
 
         for (int index = 0; index < variableNode.getLength(); index++) {
             Element variableElement = (Element) variableNode.item(index);
-            // 필수 attribute name 과 type 읽기 및 검증
+            // 필수 attribute name, type, fixed 읽기 및 검증
             String name = variableElement.getAttribute(NAME_ATTRIBUTE);
             String type = variableElement.getAttribute(TYPE_ATTRIBUTE);
+            String fixed = variableElement.getAttribute(FIXED_ATTRIBUTE);
             if(!isVariableType(type)) {
                 log.warn("{} is not define type {} -> {}", type, type, VARIABLE_TYPE_STRING);
                 type = VARIABLE_TYPE_STRING;
             }
+
+
             // 옵션 attribute length 과 format 읽기 및 검증
             String length = variableElement.getAttribute(LENGTH_ATTRIBUTE);
             String format = variableElement.getAttribute(FORMAT_ATTRIBUTE);
@@ -192,7 +196,7 @@ public class XmlParser {
                 format = "";
             }
             // 변수 객체 생성, length 가 없으면 -1, format 이 없으면 ""
-            VariableInfo variableInfo = new VariableInfo(name, type, parseInteger(length, -1), format);
+            VariableInfo variableInfo = new VariableInfo(name, type, Boolean.parseBoolean(fixed), parseInteger(length, -1), format);
             // 변수명 기준 이미 저장된 변수가 있을 경우 무시
             if(variableMap.putIfAbsent(name, variableInfo) != null) {
                 log.warn("variable name [{}] is already exist", name);

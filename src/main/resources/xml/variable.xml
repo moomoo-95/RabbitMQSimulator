@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <variables>
-    <variable name="tId" type="UUID"/>
-    <variable name="time" type="Date" format="yyyy-mm-dd HH:MM:ss.SSS"/>
-    <variable name="gId" type="String" length="12"/>
-    <variable name="gKey" type="String" length="17"/>
-    <variable name="mcCount" type="int"/>
-    <variable name="rStr" type="String"/>
-    <variable name="rCode" type="int"/>
+    <variable name="tId" type="UUID" fixed="false"/>
+    <variable name="time" type="Date" fixed="false" format="yyyy-mm-dd HH:MM:ss.SSS"/>
+    <variable name="gId" type="String" fixed="true" length="12"/>
+    <variable name="gKey" type="String" fixed="true" length="17"/>
+    <variable name="mcCount" type="int" fixed="true"/>
+    <variable name="rStr" type="String" fixed="false"/>
+    <variable name="rCode" type="int" fixed="false"/>
 </variables>
